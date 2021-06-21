@@ -1,0 +1,71 @@
+<testcase>
+    <input></input>
+    <input>5</input>
+    <output>false</output>
+</testcase>
+
+<testcase>
+    <input>1</input>
+    <input>1</input>
+    <output>false</output>
+</testcase>
+
+<testcase>
+    <input>1 1</input>
+    <input>1</input>
+    <output>false</output>
+</testcase>
+
+<testcase>
+    <input>18 1</input>
+    <input>19</input>
+    <output>true</output>
+</testcase>
+
+<testcase>
+    <input>1 2 1</input>
+    <input>3</input>
+    <output>true</output>
+</testcase>
+
+<testcase>
+    <input>1 2 1</input>
+    <input>2</input>
+    <output>true</output>
+</testcase>
+
+<testcase>
+    <input>17 10 11 12 7 5</input>
+    <input>29</input>
+    <output>true</output>
+</testcase>
+
+<testcase>
+    <input>17 10 11 12 7 5</input>
+    <input>100</input>
+    <output>false</output>
+</testcase>
+
+<testcase>
+    <input>25 5 6 7 8 9</input>
+    <input>11</input>
+    <output>true</output>
+</testcase>
+
+<testcase>
+    <input>15 5 6 7 8 9</input>
+    <input>14</input>
+    <output>true</output>
+</testcase>
+
+<testcase>
+    <input>14 15 16 17 18 19</input>
+    <input>37</input>
+    <output>true</output>
+</testcase>
+
+<testcase>
+    <input>14 15 16 17 18 19</input>
+    <input>317</input>
+    <output>false</output>
+</testcase>
