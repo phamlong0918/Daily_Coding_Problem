@@ -1,0 +1,22 @@
+
+Good morning! Here's your coding interview problem for today.
+
+This problem was recently asked by Google.
+
+Given a list of numbers and a number k, return whether any two numbers from the list add up to k.
+
+For example, given [10, 15, 3, 7] and k of 17, return true since 10 + 7 is 17.
+
+Bonus: Can you do this in one pass?
+
+// --------------------------------------------------------
+Solution 1:
+    Calculate with sum of each pair of number with target in list
+    -> number of calculate = C2(n) = n * (n-1) / 2 ~ On2
+    Complexity: On2
+
+Solution 2:
+    Sort array -> using two pointer
+
+Solution 3: 
+    Using hashtable
