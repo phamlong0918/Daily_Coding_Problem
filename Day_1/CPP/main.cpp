@@ -18,50 +18,29 @@
 #include <vector>
 #include <utility>
 
-#include "stringconvert.h"
-
-const std::string TestFile = "test.txt";
-
-std::vector<std::pair<std::vector<std::string>, std::vector<std::string>>> getAllTestCases(const std::string& strFileName);
-bool readTagContent(std::string& strInput, std::string strTag, int& startIndex, int& endIndex);
+#include "test.h"
 
 bool checkTwoSum(std::vector<int>& numbers, int target);
 
 int main()
 {
     // Get all test cases from file test
-    auto testCases = getAllTestCases(TestFile);
-    int testCaseCount = 0;
+    auto testCases = createTestCases();
 
     // Check each test case in file
     bool blAllPass = true;
     std::vector<int> lstFailTestCase;
-    for(const auto& testCase : testCases)
+    for(int i = 0; i < testCases.size(); ++ i)
     {
-        testCaseCount ++;
         std::cout << std::endl;
-        std::cout << "Test case " << testCaseCount << std::endl;
+        std::cout << "Test case " << i + 1 << std::endl;
 
-        // get input and expect output from file test
-        std::vector<int> numbers;
-        int target;
-        bool expectOutput;
+        // get input, expect output
+        auto& numbers = testCases[i].input.numbers;
+        int target = testCases[i].input.target;
+        bool expectOutput = testCases[i].expectOutput.isEqual;
 
-        try
-        {
-            numbers = convertStringTo<std::vector<int>>(testCase.first[0]);
-            target = convertStringTo<int>(testCase.first[1]);
-            expectOutput = convertStringTo<bool>(testCase.second[0]);
-        }
-        catch(...)
-        {
-            std::cout << "Test case " << testCaseCount << " can not be excuted!" << std::endl;
-            continue;
-        }
-
-        std::cout << "\tnumbers: " << testCase.first[0] << std::endl;
-        std::cout << "\ttarget: " << target << std::endl;
-        std::cout << "\tExpect output is: " << std::boolalpha << expectOutput << std::endl;
+        testCases[i].print();
 
         // check your function
         auto yourOutput = checkTwoSum(numbers, target);
@@ -70,11 +49,11 @@ int main()
             blAllPass = false;
             std::cout << "\tYour output is: " << std::boolalpha << yourOutput << std::endl;
             std::cout << "\tFail this test case" << std::endl;
-            lstFailTestCase.push_back(testCaseCount);
+            lstFailTestCase.push_back(i + 1);
         }
         else
         {
-            std::cout << "\tPass test case " << testCaseCount << std::endl;
+            std::cout << "\tPass test case " << i + 1 << std::endl;
         }
     }
 
@@ -158,92 +137,3 @@ bool checkTwoSum(std::vector<int>& numbers, int target)
     return false;
 }
 
-bool readTagContent(std::string& strInput, std::string strTag, int& startIndex, int& endIndex)
-{
-    std::string strStartTag = "<" + strTag + ">";
-    std::string strEndTag = "</" + strTag + ">";
-
-    if(strInput.size() < strStartTag.size() + strEndTag.size())
-        return false;
-
-    for(int i = 0; i < strInput.size() - strStartTag.size() - strEndTag.size(); ++ i)
-    {
-        if(strInput.substr(i, strStartTag.size()) == strStartTag)
-        {
-            startIndex = i + strStartTag.size();
-
-            for(int j = startIndex; j < strInput.size() + 1 - strEndTag.size(); ++ j)
-            {
-                if(strInput.substr(j, strEndTag.size()) == strEndTag)
-                {
-                    endIndex = j - 1;
-
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
-}
-
-std::vector<std::pair<std::vector<std::string>, std::vector<std::string>>> getAllTestCases(const std::string& strFileName)
-{
-    std::vector<std::pair<std::vector<std::string>, std::vector<std::string>>> allTestCases;
-
-    std::ifstream testFile(strFileName);
-    std::string strFileContent;
-
-    std::string newLine;
-    while(getline(testFile, newLine))
-    {
-        strFileContent += newLine;
-    }
-
-    while(strFileContent.size() > 0)
-    {
-        int startIndexTC = -1;
-        int endIndexTC = -1;
-
-        if(readTagContent(strFileContent, "testcase", startIndexTC, endIndexTC))
-        {
-            std::string strTestCaseContent = strFileContent.substr(startIndexTC, endIndexTC - startIndexTC + 1);
-            strFileContent = strFileContent.substr(endIndexTC + 12, strFileContent.size() + 11 - endIndexTC);
-            std::vector<std::string> lstStrInput, lstStrOutput;
-            
-            while(strTestCaseContent.size() > 0)
-            {
-                int blBreak = true;
-                int startIndexInput, endIndexInput;
-                
-                // read input
-                if(readTagContent(strTestCaseContent, "input", startIndexInput, endIndexInput))
-                {
-                    blBreak = false;
-                    lstStrInput.push_back(strTestCaseContent.substr(startIndexInput, endIndexInput + 1 - startIndexInput));
-
-                    strTestCaseContent = strTestCaseContent.substr(0, startIndexInput - 7) + strTestCaseContent.substr(endIndexInput + 9, strTestCaseContent.size() + 8 - endIndexInput);
-                }
-                //std::cout << strTestCaseContent + "size: " << (int)strTestCaseContent.size() << std::endl;
-
-                // read output
-                int startIndexOutput, endIndexOutput;
-                if(readTagContent(strTestCaseContent, "output", startIndexOutput, endIndexOutput))
-                {
-                    blBreak = false;
-                    lstStrOutput.push_back(strTestCaseContent.substr(startIndexOutput, endIndexOutput + 1 - startIndexOutput));
-
-                    strTestCaseContent = strTestCaseContent.substr(0, startIndexOutput - 8) + strTestCaseContent.substr(endIndexOutput + 10, strTestCaseContent.size() + 9 - endIndexOutput);
-                }
-                //std::cout << strTestCaseContent + "size: " << (int)strTestCaseContent.size() << std::endl;
-
-                if(blBreak == true)
-                    break;
-            }
-
-            allTestCases.push_back(std::pair<std::vector<std::string>, std::vector<std::string>>(lstStrInput, lstStrOutput));
-        }
-    }
-
-    return allTestCases;
-}
