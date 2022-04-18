@@ -60,35 +60,35 @@ public class Main {
         return result;
     }
 
-        // Solution 1: Sort: Onlog n + find number with the most multiple: On2
-        public static ArrayList<Integer> largetSubset_2(ArrayList<Integer> arr) {
-            if(arr.size() <= 1) {
-                return arr;
-            }
-            
-            Collections.sort(arr);
-            Map<Integer, ArrayList<Integer>> resultMap =  new HashMap<>();
-
-            for(int i = 0; i < arr.size(); ++ i) {
-                boolean isFirstNumber = true;
-                for(Map.Entry<Integer, ArrayList<Integer>> entry : resultMap.entrySet()) {
-                    if(arr.get(i) % entry.getKey() == 0) {
-                        isFirstNumber = false;
-                        entry.getValue().add(arr.get(i));
-                    }
-                }
-
-                if(isFirstNumber) {
-                    resultMap.put(arr.get(i), new ArrayList<>(Arrays.asList(arr.get(i))));
-                }
-            }
-            
-            ArrayList<Integer> result = new ArrayList<>();
-            for(Map.Entry<Integer, ArrayList<Integer>> entry : resultMap.entrySet()) {
-                if(result.size() < entry.getValue().size()) {
-                    result = entry.getValue();
-                }
-            }
-            return result;
+    // Solution 2: Sort: Onlog n + find number with the most multiple: On2
+    public static ArrayList<Integer> largetSubset_2(ArrayList<Integer> arr) {
+        if(arr.size() <= 1) {
+            return arr;
         }
+        
+        Collections.sort(arr);
+        Map<Integer, ArrayList<Integer>> resultMap =  new HashMap<>();
+
+        for(int i = 0; i < arr.size(); ++ i) {
+            boolean isFirstNumber = true;
+            for(Map.Entry<Integer, ArrayList<Integer>> entry : resultMap.entrySet()) {
+                if(arr.get(i) % entry.getKey() == 0) {
+                    isFirstNumber = false;
+                    entry.getValue().add(arr.get(i));
+                }
+            }
+
+            if(isFirstNumber) {
+                resultMap.put(arr.get(i), new ArrayList<>(Arrays.asList(arr.get(i))));
+            }
+        }
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        for(Map.Entry<Integer, ArrayList<Integer>> entry : resultMap.entrySet()) {
+            if(result.size() < entry.getValue().size()) {
+                result = entry.getValue();
+            }
+        }
+        return result;
+    }
 }
