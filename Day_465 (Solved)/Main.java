@@ -26,7 +26,7 @@ public class Main {
         System.out.println("null");
     }
 
-    public static Node toLinkledList (ArrayList<Integer> arr) {
+    public static Node toLinkedList(ArrayList<Integer> arr) {
         Node result = null;
         for(int i = 0; i < arr.size(); ++ i) {
             Node newNode = new Node();
@@ -39,9 +39,9 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Node input_1 = toLinkledList(new ArrayList<>(Arrays.asList(3, 5, 10, 20, 21)));
-        Node input_2 = toLinkledList(new ArrayList<>(Arrays.asList(1)));
-        Node input_3 = toLinkledList(new ArrayList<>(Arrays.asList(5, 3, 7, 6, 24, 20)));
+        Node input_1 = toLinkedList(new ArrayList<>(Arrays.asList(3, 5, 10, 20, 21)));
+        Node input_2 = toLinkedList(new ArrayList<>(Arrays.asList(1)));
+        Node input_3 = toLinkedList(new ArrayList<>(Arrays.asList(5, 3, 7, 6, 24, 20)));
         
         printNode(input_1);
         printNode(reverse(input_1));
